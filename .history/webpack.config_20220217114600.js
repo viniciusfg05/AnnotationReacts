@@ -1,0 +1,40 @@
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+//Dentro do Js, existe variaveis ambientes que são para configurar alguma coisa dependendo do ambiente de aplicação
+//NODE.ENV: variavel que serve dizer se o ambiente é de desenvolvimento ou produção
+const insDevelopment = process.env.NODE_ENV !== 'production'
+
+module.exports = {
+  mode: insDevelopment ? 'development' : 'production',
+  devtool: 'eval-source-map',
+  entry: path.resolve(__dirname, 'src', 'index.jsx'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public')
+    }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html')
+    })
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$|jsx/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      }
+    ]
+  }
+}
+
+//template = Qual arquivo de template ele vai gerar o html
