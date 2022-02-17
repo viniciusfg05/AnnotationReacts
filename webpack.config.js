@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const insDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
@@ -14,21 +15,28 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'public')
-    }
+    static: path.resolve(__dirname, 'public'),
+    hot: true
   },
   plugins: [
+    insDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html')
     })
-  ],
+  ].filter(Boolean), //Como no insDevelopment se não divermos em desenvolvimento ele irá retorna false, causadno erro, então vamao filtrar os Boolean do plugin
   module: {
     rules: [
       {
         test: /\.js$|jsx/,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              insDevelopment && require.resolve('react-refresh/babel')
+            ].filter(Boolean)
+          }
+        }
       },
       {
         test: /\.scss$/,
