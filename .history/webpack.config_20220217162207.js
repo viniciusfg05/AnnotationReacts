@@ -15,8 +15,10 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    static: path.resolve(__dirname, 'public'),
-    hot: true
+    static: {
+      directory: path.join(__dirname, 'public'),
+      hot: true
+    }
   },
   plugins: [
     insDevelopment && new ReactRefreshWebpackPlugin(),

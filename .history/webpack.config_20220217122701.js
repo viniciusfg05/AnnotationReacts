@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const insDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
@@ -15,28 +14,21 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    static: path.resolve(__dirname, 'public'),
-    hot: true
+    static: {
+      directory: path.join(__dirname, 'public')
+    }
   },
   plugins: [
-    insDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html')
     })
-  ].filter(Boolean), //Como no insDevelopment se não divermos em desenvolvimento ele irá retorna false, causadno erro, então vamao filtrar os Boolean do plugin
+  ],
   module: {
     rules: [
       {
         test: /\.js$|jsx/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [
-              insDevelopment && require.resolve('react-refresh/babel')
-            ].filter(Boolean)
-          }
-        }
+        use: 'babel-loader'
       },
       {
         test: /\.scss$/,
@@ -46,3 +38,7 @@ module.exports = {
     ]
   }
 }
+
+//yarn add sass-loader -D - para entender arquivos SASS
+//mudar o "test" para ".scss"
+//add no rules do webpack.config "sass-loader"

@@ -15,8 +15,10 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    static: path.resolve(__dirname, 'public'),
-    hot: true
+    static: {
+      directory: path.join(__dirname, 'public'),
+      hot: true
+    }
   },
   plugins: [
     insDevelopment && new ReactRefreshWebpackPlugin(),
@@ -31,11 +33,9 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            plugins: [
-              insDevelopment && require.resolve('react-refresh/babel')
-            ].filter(Boolean)
-          }
+          options: [
+            insDevelopment && require.resolve('react-refresh/babel')
+          ].filter(Boolean)
         }
       },
       {
