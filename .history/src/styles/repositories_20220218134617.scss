@@ -1,0 +1,42 @@
+body {
+  background-color: rgb(235, 210, 241);
+}
+
+section.repository-list {
+  margin: 40px;
+
+  h1 {
+    color: #201637;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      strong {
+        color: #201637;
+        font-size: 20px;
+      }
+
+      & + li {
+        //aplica apenas para quem tem um irmao a baixo copm a tag "li"
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 14px;
+        color: #444;
+        margin-top: 8px;
+      }
+
+      a {
+        display: inline-block;
+        // margin-top: 16px;
+        text-decoration: none;
+        color: #8257e6;
+      }
+    }
+  }
+}
